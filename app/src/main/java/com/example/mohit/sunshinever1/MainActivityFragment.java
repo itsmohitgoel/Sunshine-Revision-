@@ -14,6 +14,7 @@ import java.util.Arrays;
  * A placeholder fragment containing a simple view.
  */
 public class MainActivityFragment extends Fragment {
+    ArrayAdapter<String> mForecastAdapter;
 
     public MainActivityFragment() {
     }
@@ -31,6 +32,20 @@ public class MainActivityFragment extends Fragment {
                 "Sat - Sunny-76/68"
         };
         ArrayList<String> weekForecast = new ArrayList<>(Arrays.asList(fakeData));
+
+        //Now that we have some dummy forecast data, create an ArrayAdapter.
+        // The ArrayAdapter will take data from a source (Like our dummy forecast data)
+        // use it to populate the ListView it's attached to.
+        //Initialize the adapter i.e ArrayAdapter as our data is in ArrayList
+        mForecastAdapter = new ArrayAdapter<String>(
+                //The current context (this fragment's parent activity)
+                getActivity(),
+                //ID of list item layout
+                R.layout.list_item_forecast,
+                //ID of the textview, to populate
+                R.id.list_item_forecast_textview,
+                //Forecast data
+                weekForecast);
         return rootView;
     }
 }
