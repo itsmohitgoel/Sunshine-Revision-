@@ -22,7 +22,7 @@ import java.util.Arrays;
 
 /**
  * Class to retrieve weather data from the OpenWeatherMap api
- *
+ * <p/>
  * Created by Mohit on 29-12-2015.
  */
 public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
@@ -119,9 +119,6 @@ public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
             resultStrs[i] = day + "-" + description + "-" + highAndLow;
         }
 
-        for (String s : resultStrs) {
-            Log.v(LOG_TAG, "Forecast entry: " + s);
-        }
         return resultStrs;
     }
 
@@ -165,8 +162,6 @@ public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
 
             URL url = new URL(builtUri.toString());
 
-            Log.v(LOG_TAG, "Built URI " + builtUri.toString());
-
             // Create a request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
@@ -194,8 +189,6 @@ public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
                 return null;
             }
             forecastJsonStr = buffer.toString();
-
-            Log.v(LOG_TAG, "Forecast JSON String: " + forecastJsonStr);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error", e);
             // If the code didn't successfully get the weather data, there's no point in attempting
@@ -224,9 +217,10 @@ public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
     }
 
     @Override
-    protected void onPostExecute(String[] strings) {
+    protected void onPostExecute(String[] result) {
         // Notify the fragment adapter about the new downloaded weather data.
-        updatableObject.onWeatherUpdate(Arrays.asList(strings));
-
+        if (result != null) {
+            updatableObject.onWeatherUpdate(Arrays.asList(strings));
+        }
     }
 }
