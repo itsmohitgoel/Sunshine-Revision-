@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.text.format.Time;
 import android.util.Log;
 
+import com.example.mohit.sunshinever1.listeners.Updatable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,6 +18,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 /**
  * Class to retrieve weather data from the OpenWeatherMap api
@@ -24,6 +27,7 @@ import java.text.SimpleDateFormat;
  */
 public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
     private final String LOG_TAG = FetchWeatherAsync.class.getSimpleName();
+    public Updatable updatableObject;
 
     /* The date/time conversion code is going to be moved  outside the asynctask later,
      * so for  convenience I'm breaking it out into its own method now.
@@ -221,7 +225,8 @@ public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
 
     @Override
     protected void onPostExecute(String[] strings) {
-        super.onPostExecute(strings);
+        // Notify the fragment adapter about the new downloaded weather data.
+        updatableObject.onWeatherUpdate(Arrays.asList(strings));
 
     }
 }
