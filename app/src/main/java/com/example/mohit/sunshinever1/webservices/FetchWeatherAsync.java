@@ -218,9 +218,9 @@ public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
 
     @Override
     protected void onPostExecute(String[] result) {
-        // Notify the fragment adapter about the new downloaded weather data.
         if (result != null) {
-            updatableObject.onWeatherUpdate(Arrays.asList(strings));
+            // Notify the fragment adapter about the new downloaded weather data.
+            updatableObject.onWeatherUpdate(Arrays.asList(result));
         }
     }
 }
