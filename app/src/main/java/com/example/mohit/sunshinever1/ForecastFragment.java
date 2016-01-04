@@ -2,14 +2,18 @@ package com.example.mohit.sunshinever1;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mohit.sunshinever1.listeners.Updatable;
 import com.example.mohit.sunshinever1.webservices.FetchWeatherAsync;
@@ -87,6 +91,25 @@ public class ForecastFragment extends Fragment implements Updatable {
         //Get the reference to the ListView, and attach this adapter to it.
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(mForecastAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                CharSequence tempString = ((TextView) view).getText();
+
+                LayoutInflater inflater = getActivity().getLayoutInflater();
+                View layout = inflater.inflate(R.layout.custom_toast,
+                        (ViewGroup) getActivity().findViewById(R.id.toast_layout_root));
+
+                TextView tv =(TextView) layout.findViewById(R.id.toast_text);
+                tv.setText(tempString);
+
+                Toast toast = new Toast(getActivity());
+                toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+                toast.setDuration(Toast.LENGTH_SHORT);
+                toast.setView(layout);
+                toast.show();
+            }
+        });
 
         return rootView;
     }
