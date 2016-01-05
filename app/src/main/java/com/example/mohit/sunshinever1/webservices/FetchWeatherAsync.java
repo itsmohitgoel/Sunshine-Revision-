@@ -27,7 +27,7 @@ import java.util.Arrays;
  */
 public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
     private final String LOG_TAG = FetchWeatherAsync.class.getSimpleName();
-    public Updatable updatableObject;
+    public Updatable updatableObject;   // Adapter object to be notified on data being changed.
 
     /* The date/time conversion code is going to be moved  outside the asynctask later,
      * so for  convenience I'm breaking it out into its own method now.
