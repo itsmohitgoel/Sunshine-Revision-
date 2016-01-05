@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.mohit.sunshinever1.listeners.Updatable;
 import com.example.mohit.sunshinever1.webservices.FetchWeatherAsync;
@@ -92,8 +93,9 @@ public class ForecastFragment extends Fragment implements Updatable {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                CharSequence tempString = ((TextView)view).getText();
                 Intent intentDetailActivity = new Intent(getActivity(), DetailActivity.class);
-                intentDetailActivity.putExtra(Intent.EXTRA_TEXT, "Forecast Detail");
+                intentDetailActivity.putExtra(Intent.EXTRA_TEXT, tempString);
                 startActivity(intentDetailActivity);
             }
         });
