@@ -54,7 +54,7 @@ public class ForecastFragment extends Fragment implements Updatable {
             case R.id.action_refresh:
                 FetchWeatherAsync weatherTask = new FetchWeatherAsync();
                 weatherTask.updatableObject = this;
-                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
                 String location = sharedPref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
 
                 weatherTask.execute(location);
