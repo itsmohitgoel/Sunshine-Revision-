@@ -60,10 +60,11 @@ public class ForecastFragment extends Fragment implements Updatable {
     }
 
     private void updateWeather() {
-        FetchWeatherAsync weatherTask = new FetchWeatherAsync();
+        FetchWeatherAsync weatherTask = new FetchWeatherAsync(getActivity());
         weatherTask.updatableObject = this;
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String location = sharedPref.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        String units = sharedPref.getString(getString(R.string.pref_units_key), getString(R.string.pref_units_default));
 
         weatherTask.execute(location);
     }
