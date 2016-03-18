@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +41,12 @@ public class MainActivityFragment extends Fragment {
                                                     R.id.list_item_forecast_textview,
                                                     weekForecast);
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
+        //Get the ref to listview widget, and add adapter to it
+        ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
+        listView.setAdapter(mForecastAdapter);
+
+        //finally return the fragment rootview
         return rootView;
     }
 }
