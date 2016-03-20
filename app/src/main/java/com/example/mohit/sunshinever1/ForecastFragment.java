@@ -60,6 +60,7 @@ public class ForecastFragment extends Fragment {
     }
 
     private class FetchWeatherTask extends AsyncTask<Void,Void,Void>{
+        private static String LOG_TAG = FetchWeatherTask.class.getSimpleName();
         @Override
         protected Void doInBackground(Void... params) {
             HttpURLConnection urlConnection = null;
