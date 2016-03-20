@@ -50,6 +50,8 @@ public class ForecastFragment extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
+            FetchWeatherTask weatherTask = new FetchWeatherTask();
+            weatherTask.execute();
             return true;
         }
 
@@ -85,8 +87,9 @@ public class ForecastFragment extends Fragment {
         return rootView;
     }
 
-    private class FetchWeatherTask extends AsyncTask<Void,Void,Void>{
+    private class FetchWeatherTask extends AsyncTask<Void, Void, Void> {
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
+
         @Override
         protected Void doInBackground(Void... params) {
             HttpURLConnection urlConnection = null;
@@ -120,7 +123,7 @@ public class ForecastFragment extends Fragment {
             } catch (IOException e) {
                 Log.e(LOG_TAG, "Error");
                 return null;
-            }finally {
+            } finally {
                 if (urlConnection != null) {
                     urlConnection.disconnect();
                 }
@@ -136,4 +139,3 @@ public class ForecastFragment extends Fragment {
         }
     }
 }
-	
