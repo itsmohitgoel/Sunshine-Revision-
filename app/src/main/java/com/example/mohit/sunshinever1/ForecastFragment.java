@@ -1,5 +1,6 @@
 package com.example.mohit.sunshinever1;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -51,7 +52,7 @@ public class ForecastFragment extends Fragment {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
             FetchWeatherTask weatherTask = new FetchWeatherTask();
-            weatherTask.execute();
+            weatherTask.execute("560102");
             return true;
         }
 
@@ -87,19 +88,38 @@ public class ForecastFragment extends Fragment {
         return rootView;
     }
 
-    private class FetchWeatherTask extends AsyncTask<Void, Void, Void> {
+    private class FetchWeatherTask extends AsyncTask<String, Void, Void> {
         private final String LOG_TAG = FetchWeatherTask.class.getSimpleName();
 
         @Override
-        protected Void doInBackground(Void... params) {
+        protected Void doInBackground(String... params) {
             HttpURLConnection urlConnection = null;
             BufferedReader reader = null;
 
-            try {
-                String baseURL = "http://api.openweathermap.org/data/2.5/forecast/daily?q=560102&mode=json&units=metric&cnt=7";
-                String apiKey = "&appid=b1b15e88fa797225412429c1c50c122a";
-                URL url = new URL(baseURL + apiKey);
+            String forecastJsonString = null;
 
+            String format = "json";
+            String unit = "metric";
+            String numDays = "7";
+            String apiKey = "1d8608cb722da1f8f1f18011bd298fe0";
+            try {
+                final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";
+                final String QUERY_PARAM = "q";
+                final String FORMAT_PARAM = "mode";
+                final String UNIT_PARAM = "units";
+                final String DAYS_PARAM = "cnt";
+                final String API_KEY_PARAM = "appid";
+
+                Uri baseUri = Uri.parse(FORECAST_BASE_URL);
+                Uri.Builder builder = baseUri.buildUpon();
+                builder.appendQueryParameter(QUERY_PARAM, params[0])
+                        .appendQueryParameter(FORMAT_PARAM, format)
+                        .appendQueryParameter(UNIT_PARAM, unit)
+                        .appendQueryParameter(DAYS_PARAM, numDays)
+                        .appendQueryParameter(API_KEY_PARAM, apiKey);
+                Uri finalUri = builder.build();
+
+                URL url = new URL(finalUri.toString());
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
