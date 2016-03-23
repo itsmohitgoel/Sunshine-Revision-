@@ -86,7 +86,7 @@ public class ForecastFragment extends Fragment implements Updatable{
     @Override
     /**
      * Handler code, to update the adapter's weather data
-     * wheneven its being downloaded in worker thread.
+     * whenever its being downloaded in worker thread.
      */
     public void onWeatherUpdate(List<String> weatherData) {
         mForecastAdapter.clear();
