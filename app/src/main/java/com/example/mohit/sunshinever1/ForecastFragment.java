@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.mohit.sunshinever1.listeners.Updatable;
 import com.example.mohit.sunshinever1.webservices.FetchWeatherAsync;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.List;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ForecastFragment extends Fragment {
+public class ForecastFragment extends Fragment implements Updatable{
     ArrayAdapter<String> mForecastAdapter;
     private final static String LOG_TAG = ForecastFragment.class.getSimpleName();
 
@@ -45,6 +46,7 @@ public class ForecastFragment extends Fragment {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
             FetchWeatherAsync weatherTask = new FetchWeatherAsync();
+            weatherTask.updatableObject = this;
             weatherTask.execute("560102");
             return true;
         }
@@ -79,5 +81,17 @@ public class ForecastFragment extends Fragment {
 
         //finally return the fragment rootview
         return rootView;
+    }
+
+    @Override
+    /**
+     * Handler code, to update the adapter's weather data
+     * wheneven its being downloaded in worker thread.
+     */
+    public void onWeatherUpdate(List<String> weatherData) {
+        mForecastAdapter.clear();
+        for (String s :weatherData) {
+            mForecastAdapter.add(s);
+        }
     }
 }

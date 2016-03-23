@@ -5,6 +5,8 @@ import android.os.AsyncTask;
 import android.text.format.Time;
 import android.util.Log;
 
+import com.example.mohit.sunshinever1.listeners.Updatable;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,12 +18,15 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Mohit on 23-03-2016.
  */
 public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
     private final String LOG_TAG = FetchWeatherAsync.class.getSimpleName();
+    public Updatable updatableObject;
 
     @Override
     protected String[] doInBackground(String... params) {
@@ -195,5 +200,13 @@ public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
         }
         return resultStrs;
 
+    }
+
+    @Override
+    protected void onPostExecute(String[] strings) {
+        if (strings != null) {
+            // Notifiy the fragment adapter about the new weather data
+            updatableObject.onWeatherUpdate(Arrays.asList(strings));
+        }
     }
 }
