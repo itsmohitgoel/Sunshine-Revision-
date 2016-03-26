@@ -118,7 +118,7 @@ public class ForecastFragment extends Fragment implements Updatable{
      * as per the user defined location in settings menu.
      */
     private void updateWeather() {
-        FetchWeatherAsync weatherTask = new FetchWeatherAsync();
+        FetchWeatherAsync weatherTask = new FetchWeatherAsync(getActivity());
         weatherTask.updatableObject = this;
         SharedPreferences sharedPreference = PreferenceManager.getDefaultSharedPreferences(getActivity());
         String locationCode = sharedPreference.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));

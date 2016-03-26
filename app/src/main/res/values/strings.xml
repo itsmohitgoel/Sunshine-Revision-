@@ -8,4 +8,11 @@
     <string name="pref_location_label">Location</string>
     <string name="pref_location_key" translatable="false">location</string>
     <string name="pref_location_default" translatable="false">560034</string>
+    <string name="pref_unit_title">Temperature Units</string>
+    <string name="pref_unit_key">unit</string>
+    <string name="pref_unit_label_metric">Metric</string>
+    <string name="pref_unit_label_imperial">Imperial</string>
+    <string name="pref_unit_metric">metric</string>
+    <string name="pref_unit_imperial">imperial</string>
+
 </resources>

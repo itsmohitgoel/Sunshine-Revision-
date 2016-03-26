@@ -1,10 +1,14 @@
 package com.example.mohit.sunshinever1.webservices;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
 
+import com.example.mohit.sunshinever1.R;
 import com.example.mohit.sunshinever1.listeners.Updatable;
 
 import org.json.JSONArray;
@@ -26,7 +30,12 @@ import java.util.Arrays;
  */
 public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
     private final String LOG_TAG = FetchWeatherAsync.class.getSimpleName();
+    private final Context mContext;
     public Updatable updatableObject;
+
+    public FetchWeatherAsync(Context mContext){
+        this.mContext = mContext;
+    }
 
     @Override
     protected String[] doInBackground(String... params) {
@@ -115,7 +124,13 @@ public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
     /**
      * Prepare the weather high/lows for presentation.
      */
-    private String formatHighLows(double high, double low) {
+    private String formatHighLows(double high, double low, String unitType) {
+        if (unitType.equals(mContext.getString(R.string.pref_unit_imperial))) {
+            high = (high * 1.8) + 32;
+            low = (low * 1.8) + 32;
+        }else {
+            Log.d(LOG_TAG, "unit type not found: " + unitType);
+        }
         // For presentation, assume the user doesn't care about tenths of a degree.
         long roundedHigh = Math.round(high);
         long roundedLow = Math.round(low);
@@ -163,6 +178,8 @@ public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
         dayTime = new Time();
 
         String[] resultStrs = new String[numDays];
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        String unitType = sharedPreferences.getString(mContext.getString(R.string.pref_unit_key), mContext.getString(R.string.pref_unit_metric));
         for(int i = 0; i < weatherArray.length(); i++) {
             // For now, using the format "Day, description, hi/low"
             String day;
@@ -190,7 +207,7 @@ public class FetchWeatherAsync extends AsyncTask<String, Void, String[]> {
             double high = temperatureObject.getDouble(OWM_MAX);
             double low = temperatureObject.getDouble(OWM_MIN);
 
-            highAndLow = formatHighLows(high, low);
+            highAndLow = formatHighLows(high, low, unitType);
             resultStrs[i] = day + " - " + description + " - " + highAndLow;
         }
 
