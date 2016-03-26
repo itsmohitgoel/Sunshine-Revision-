@@ -50,14 +50,9 @@ public class ForecastFragment extends Fragment implements Updatable{
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
-            FetchWeatherAsync weatherTask = new FetchWeatherAsync();
-            weatherTask.updatableObject = this;
-            SharedPreferences sharedPreference = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String locationCode = sharedPreference.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-            weatherTask.execute(locationCode);
+            updateWeather();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -110,5 +105,23 @@ public class ForecastFragment extends Fragment implements Updatable{
         for (String s :weatherData) {
             mForecastAdapter.add(s);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
+    }
+
+    /**
+     * Execute async task to re-download the weather data
+     * as per the user defined location in settings menu.
+     */
+    private void updateWeather() {
+        FetchWeatherAsync weatherTask = new FetchWeatherAsync();
+        weatherTask.updatableObject = this;
+        SharedPreferences sharedPreference = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String locationCode = sharedPreference.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        weatherTask.execute(locationCode);
     }
 }
