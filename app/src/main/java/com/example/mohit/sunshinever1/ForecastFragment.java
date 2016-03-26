@@ -1,9 +1,10 @@
 package com.example.mohit.sunshinever1;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.mohit.sunshinever1.listeners.Updatable;
 import com.example.mohit.sunshinever1.webservices.FetchWeatherAsync;
@@ -52,7 +52,9 @@ public class ForecastFragment extends Fragment implements Updatable{
         if (id == R.id.action_refresh) {
             FetchWeatherAsync weatherTask = new FetchWeatherAsync();
             weatherTask.updatableObject = this;
-            weatherTask.execute("560102");
+            SharedPreferences sharedPreference = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String locationCode = sharedPreference.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+            weatherTask.execute(locationCode);
             return true;
         }
 
