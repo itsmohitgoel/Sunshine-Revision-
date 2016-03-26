@@ -1,5 +1,6 @@
 package com.example.mohit.sunshinever1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -87,17 +88,9 @@ public class ForecastFragment extends Fragment implements Updatable{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 CharSequence tempString = ((TextView) view).getText();
 
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) getActivity().findViewById(R.id.toast_layout_root));
-
-                TextView tv = (TextView) layout.findViewById(R.id.toast_text);
-                tv.setText(tempString);
-
-                Toast weatherToast = Toast.makeText(getActivity(), tempString, Toast.LENGTH_SHORT);
-                weatherToast.setGravity(Gravity.CENTER_VERTICAL,0,0);
-                weatherToast.setDuration(Toast.LENGTH_SHORT);
-                weatherToast.setView(layout);
-                weatherToast.show();
+                Intent intentDetailActivity = new Intent(getActivity(), DetailActivity.class);
+                intentDetailActivity.putExtra(Intent.EXTRA_TEXT, tempString);
+                startActivity(intentDetailActivity);
             }
         });
 
